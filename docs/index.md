@@ -56,23 +56,10 @@ docs/
 │
 ├── index.md                # Homepage (this page)
 │
-├── guides/                 # How-to guides for developers
-│   ├── setup.md            # Setup instructions
-│   ├── deployment.md       # Deployment guide
-│   └── troubleshooting.md  # Common issues
-│
-├── api/                    # API documentation
-│   ├── overview.md
-│   ├── authentication.md
-│   └── users.md
-│
-├── frontend/               # Frontend-specific docs
-│   ├── architecture.md
-│   └── components.md
-│
-├── backend/                # Backend-specific docs
-│   ├── services.md
-│   └── database.md
+├── modules/                 
+│   ├── lead-creation            
+│   ├── mobile-app      
+│   └── itnerary-builder  
 │
 └── assets/                 # Images, diagrams, screenshots
     └── architecture.png

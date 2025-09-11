@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-mkdocs" class="md-skip">
+        <a href="#30sundays-tech-docs" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome to MkDocs
+              30sundays Tech Docs
             
           </span>
         </div>
@@ -204,7 +204,7 @@
   
   
   <span class="md-ellipsis">
-    Welcome to MkDocs
+    30sundays Tech Docs
     
   </span>
   
@@ -217,7 +217,7 @@
   
   
   <span class="md-ellipsis">
-    Welcome to MkDocs
+    30sundays Tech Docs
     
   </span>
   
@@ -240,18 +240,51 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#commands" class="md-nav__link">
+  <a href="#how-to-contribute-documentation" class="md-nav__link">
     <span class="md-ellipsis">
-      Commands
+      🔹 How to Contribute Documentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 How to Contribute Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-for-developers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow for Developers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-documentation-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      📂 Project Documentation Structure
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#project-layout" class="md-nav__link">
+  <a href="#useful-commands" class="md-nav__link">
     <span class="md-ellipsis">
-      Project layout
+      🛠️ Useful Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Best Practices
     </span>
   </a>
   
@@ -292,18 +325,51 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#commands" class="md-nav__link">
+  <a href="#how-to-contribute-documentation" class="md-nav__link">
     <span class="md-ellipsis">
-      Commands
+      🔹 How to Contribute Documentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 How to Contribute Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-for-developers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow for Developers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-documentation-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      📂 Project Documentation Structure
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#project-layout" class="md-nav__link">
+  <a href="#useful-commands" class="md-nav__link">
     <span class="md-ellipsis">
-      Project layout
+      🛠️ Useful Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Best Practices
     </span>
   </a>
   
@@ -325,21 +391,93 @@
 
 
 
-<h1 id="welcome-to-mkdocs">Welcome to MkDocs</h1>
-<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
-<ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs -h</code> - Print help message and exit.</li>
-</ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
+<h1 id="30sundays-tech-docs">30sundays Tech Docs</h1>
+<p>Welcome to the <strong>30sundays Technical Documentation</strong> 📚<br />
+This site is the central place for documenting all our projects, APIs, workflows, and engineering practices.</p>
+<hr />
+<h2 id="how-to-contribute-documentation">🔹 How to Contribute Documentation</h2>
+<p>All documentation is written in <strong>Markdown (<code>.md</code>)</strong> files inside the <code>docs/</code> folder.<br />
+Every file you add here becomes a page in the site automatically when we build with MkDocs.</p>
+<h3 id="workflow-for-developers">Workflow for Developers</h3>
+<ol>
+<li>
+<p><strong>Clone the repository</strong>
+   <code>bash
+   git clone https://github.com/&lt;org&gt;/&lt;repo&gt;.git
+   cd &lt;repo&gt;</code></p>
+</li>
+<li>
+<p><strong>Install dependencies</strong>
+   <code>bash
+   pip install -r requirements.txt</code></p>
+</li>
+<li>
+<p><strong>Run locally</strong>
+   <code>bash
+   mkdocs serve</code>
+   Open http://127.0.0.1:8000 in your browser to preview docs with live reload.</p>
+</li>
+<li>
+<p><strong>Add or edit documentation</strong></p>
+</li>
+<li>Write content in Markdown (<code>.md</code>) format.</li>
+<li>Place your files in the correct folder (see structure below).</li>
+<li>
+<p>Use code blocks for examples, e.g.:
+   <code>python
+   def example():
+       print("Hello, Docs!")</code></p>
+</li>
+<li>
+<p><strong>Commit and push</strong>
+   <code>bash
+   git checkout -b docs/update-auth
+   git add docs/api/authentication.md
+   git commit -m "docs(api): add authentication docs"
+   git push origin docs/update-auth</code>
+   Then open a Pull Request for review.</p>
+</li>
+</ol>
+<h2 id="project-documentation-structure">📂 Project Documentation Structure</h2>
+<p>We follow this folder layout under <code>docs/</code>:</p>
+<pre><code>docs/
+│
+├── index.md                # Homepage (this page)
+│
+├── guides/                 # How-to guides for developers
+│   ├── setup.md            # Setup instructions
+│   ├── deployment.md       # Deployment guide
+│   └── troubleshooting.md  # Common issues
+│
+├── api/                    # API documentation
+│   ├── overview.md
+│   ├── authentication.md
+│   └── users.md
+│
+├── frontend/               # Frontend-specific docs
+│   ├── architecture.md
+│   └── components.md
+│
+├── backend/                # Backend-specific docs
+│   ├── services.md
+│   └── database.md
+│
+└── assets/                 # Images, diagrams, screenshots
+    └── architecture.png
 </code></pre>
+<h2 id="useful-commands">🛠️ Useful Commands</h2>
+<ul>
+<li><code>mkdocs serve</code> – Start the live-reloading docs server.</li>
+<li><code>mkdocs build</code> – Build the static documentation site into <code>site/</code>.</li>
+<li><code>firebase deploy</code> – Deploy to Firebase Hosting (if configured).</li>
+</ul>
+<h2 id="best-practices">✅ Best Practices</h2>
+<ul>
+<li>Keep docs close to the code they describe.</li>
+<li>Use clear file names (<code>auth.md</code>, <code>setup.md</code>) for easy navigation.</li>
+<li>Use screenshots, diagrams, and examples wherever helpful.</li>
+<li>Always create a Pull Request for changes so others can review.</li>
+</ul>
 
 
 
