@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "sundays-tech-doc",
     "public": "site",
     "ignore": [
       "firebase.json",
