@@ -24,6 +24,8 @@ This flight booking system allows users to search, filter, and select flights fr
 
 ## Components
 
+![Flights Component Architecture](images/Flights_Component_Architecture.png)
+
 ### Flight Details Section
 
 #### Initial State (Before Adding Flights)
@@ -60,6 +62,54 @@ This flight booking system allows users to search, filter, and select flights fr
 - Simultaneous updates to `fetchingFlightData` and local storage
 - Additional flight details configuration (Total Flight Time, Luggage Weight, Seat Day, LCC or FSC, Stopovers, Airline Options)
 
+
+
+##### Working of Handle Search 
+```mermaid
+flowchart TD
+    Start([handleSearchFlights called]) --> CheckModify{isModify?}
+    CheckModify -->|Yes| Navigate[Navigate to select-flights page]
+    CheckModify -->|No| SetContext[Set form data in context\nEnable save draft]
+    Navigate --> CloseModal[Close flights modal]
+    SetContext --> CloseModal
+    CloseModal --> FindIndexes[Find flight indexes\nwithout selected airlines]
+    FindIndexes --> FilterPayload[Filter payload indexes\nto search]
+    FilterPayload --> InitVars[Initialize:\n- allPromises array\n- newDataIndexArray copy]
+    InitVars --> LoopStart{For each\nfiltered index}
+    LoopStart -->|Next index| CreatePayload[Generate API payload\nSet loading state\nGenerate apiCallId]
+    CreatePayload --> APICalls[Parallel API calls:\n1. TBO Flights\n2. Google Flights]
+    APICalls --> AddPromise[Add to allPromises]
+    AddPromise --> LoopStart
+    LoopStart -->|Done| UpdateState{isModify?}
+    UpdateState -->|Yes| SetTemp[Set temporary fetching data\nSet selected flights]
+    UpdateState -->|No| SetContext2[Set context fetching data\nSave to localStorage]
+    SetTemp --> ProcessPromises[Process all settled promises]
+    SetContext2 --> ProcessPromises
+    ProcessPromises --> PromiseLoop{For each\npromise result}
+    PromiseLoop -->|Next result| ExtractData[Extract Google & TBO data\nHandle errors]
+    ExtractData --> MergeData[Merge Google and TBO data]
+    MergeData --> CheckError{Merge successful?}
+    CheckError -->|Error| HandleError[Update state with error\nShow error toast]
+    CheckError -->|Success| UpdateSuccess[Update state with merged data\nInitialize filters if isModify]
+    HandleError --> PromiseLoop
+    UpdateSuccess --> UpdateTS[Update timestamp data\nAdd to updateTsPromises]
+    UpdateTS --> ShowSuccess[Show success toast]
+    ShowSuccess --> PromiseLoop
+    PromiseLoop -->|Done| TSLoop{Execute timestamp\nupdate promises}
+    TSLoop -->|Next promise| CallTS[Call updateTimestamp API]
+    CallTS --> TSLoop
+    TSLoop -->|Done| End([End])
+    TSLoop -->|Error| LogError[Log error to console]
+    LogError --> End
+
+    style Start fill:#e1f5e1
+    style End fill:#ffe1e1
+    style CheckModify fill:#fff4e1
+    style CheckError fill:#fff4e1
+    style UpdateState fill:#fff4e1
+    style APICalls fill:#e1f0ff
+    style MergeData fill:#e1f0ff
+```
 ---
 
 ### Searched Flight List
@@ -116,6 +166,82 @@ Refresh behavior depends on last saved state:
 3. After return flight selection, user chooses booking platform
 4. User edits baggage details and updates prices
 5. Submit creates Google flight card similar to TBO format with updated details
+
+##### Working of Handle Select 
+```mermaid
+flowchart TD
+    Start(["handleSelectFlight called\ne, isSelected, idx"]) --> StopProp["Stop event propagation"]
+    
+    StopProp --> UpdateIndex["Update tempSelectedFlightIndex\nwith idx at activeTabIndex"]
+    
+    UpdateIndex --> ValidateConditions{"Validate conditions:\n- activeTabIndex not null\n- tempSelectedFlightIndex has data\n- index at activeTabIndex valid\n- filteredData exists"}
+    
+    ValidateConditions -->|Invalid| ClearSelection["Set selectedFlights to empty array"]
+    ValidateConditions -->|Valid| InitData["Initialize:\n- tempSelectedFlights copy\n- selectedData array\n- tempData from filteredData"]
+    
+    ClearSelection --> End(["End"])
+    
+    InitData --> ExtractFlags["Extract flight flags:\n- isGoogleFlight\n- isReturnFlight\n- isReturnFlightAvailable"]
+    
+    ExtractFlags --> SetProvider["Set provider = 'TBO'"]
+    
+    SetProvider --> CheckGoogleOneWay{"isGoogleFlight AND\nNOT isReturnFlightAvailable?"}
+    
+    CheckGoogleOneWay -->|No| DirectSelect["Set selectedFlightIndex"]
+    CheckGoogleOneWay -->|Yes| ShowModal["Show three-step modal\nwith flight details"]
+    
+    ShowModal --> ModalResult{"Modal success?"}
+    
+    ModalResult -->|No| Return(["Return without selection"])
+    ModalResult -->|Yes| BuildKey["Build flight key from tempData"]
+    
+    BuildKey --> UpdateTempData["Update temporaryFetchingFlightData:\nFind matching flight by key\nUpdate with new flight data"]
+    
+    UpdateTempData --> UpdateProvider["Update tempData:\n- Set flightDataUpdated\n- Set updatedPrice\n- Set provider from modal"]
+    
+    UpdateProvider --> SetProviderGoogle["Set provider = 'selectedProvider - Google'"]
+    
+    SetProviderGoogle --> BuildSelectedData
+    DirectSelect --> BuildSelectedData
+    
+    BuildSelectedData["Build selectedData[0]:\n- tboPrice\n- supply_cost_inr\n- totalPrice\n- returnFlight\n- provider\n- google flag\n- priceWithoutConvFee\n- convenienceFeePerPerson"] --> InitAirlines["Initialize selectedAirlines array"]
+    
+    InitAirlines --> LoopLegs{"For each leg\nin tempData.legs"}
+    
+    LoopLegs -->|Next leg| ExtractLegData["Extract leg data:\nairline, departure, arrival,\ntotal_flight_time, layover,\nsector, luggage, etc."]
+    
+    ExtractLegData --> AddAirline["Add airline to\nselectedAirlines array"]
+    
+    AddAirline --> ProcessLuggage["Process passenger_luggage_breakdown:\nAdd 'pieces' suffix if needed"]
+    
+    ProcessLuggage --> BuildLegData["Build selectedData[i+1]:\nArray with flight leg details"]
+    
+    BuildLegData --> LoopLegs
+    
+    LoopLegs -->|Done| LogData["Console log selected data"]
+    
+    LogData --> UpdateSelectedFlights["Update tempSelectedFlights\nat activeTabIndex"]
+    
+    UpdateSelectedFlights --> SetFlightsState["Set selectedFlights state"]
+    
+    SetFlightsState --> UpdateTempFetch["Update temporaryFetchingFlightData:\n- Set selectedAirlines\n- Set selectedFlight"]
+    
+    UpdateTempFetch --> SetClampFlag["Set clampFiltersAfterGoogleFlightSearch to true"]
+    
+    SetClampFlag --> End
+    Return --> End
+    
+    style Start fill:#e1f5e1
+    style End fill:#ffe1e1
+    style Return fill:#ffe1e1
+    style ValidateConditions fill:#fff4e1
+    style CheckGoogleOneWay fill:#fff4e1
+    style ModalResult fill:#fff4e1
+    style LoopLegs fill:#fff4e1
+    style ShowModal fill:#ffcccc
+    style BuildSelectedData fill:#e1f0ff
+    style UpdateTempFetch fill:#ccffcc
+```
 
 ---
 
